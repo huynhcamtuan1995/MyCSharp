@@ -1,4 +1,5 @@
-﻿using System;
+﻿using APISample.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,14 +11,20 @@ namespace APISample.Repositories
     {
         void Delete(T entityToDelete);
         void Delete(object id);
-        IQueryable<T> Query(
+        IQueryable<TResult> QuerySelect<TResult>(
+            Expression<Func<T, object>> select = null,
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             params Expression<Func<T, object>>[] includes);
+        IQueryable<T> Query(
+        Expression<Func<T, bool>> filter = null,
+        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+        params Expression<Func<T, object>>[] includes);
+
         T GetByID(object id);
-        IEnumerable<T> GetWithRawSql(string query,
+        IEnumerable<TResult> GetWithRawSql<TResult>(string query,
             params object[] parameters);
-        void Insert(T entity);
-        void Update(T entityToUpdate);
+        T Insert(T entity);
+        T Update(T entityToUpdate);
     }
 }

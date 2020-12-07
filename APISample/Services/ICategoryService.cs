@@ -10,6 +10,7 @@ namespace APISample.Services
 {
     public interface ICategoryService : IGenericRepository<Category>
     {
-        IEnumerable<Category> GetAll(params Expression<Func<Category, object>>[] includes);
+        IEnumerable<Category> GetAll();
+        IEnumerable<object> GetAllSelect();
     }
 }

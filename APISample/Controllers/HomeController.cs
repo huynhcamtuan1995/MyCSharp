@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace APISample.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
         private ICategoryService _categoryService;
@@ -21,13 +21,9 @@ namespace APISample.Controllers
             _productService = productService;
         }
 
-        [Route("[action]")]
-        public IEnumerable<Category> GetCategories() => _categoryService.GetAll(x=>x.Products);
-
-        [Route("[action]")]
-        public IEnumerable<object> GetProducts() => _productService.GetAll(x=>x.Category).Select(x => new { 
-            x.ID, x.Name, x.Quantity,
-            Category = x.Category.Products.Select(y=>y.ID).ToList()
-        }).ToList();
+        public IEnumerable<Category> GetCategories() => _categoryService.GetAll();
+        public IEnumerable<object> GetSelectCategories() => _categoryService.GetAllSelect();
+        public IEnumerable<Product> GetProducts() => _productService.GetAll();
+        public IEnumerable<object> GetSelectProducts() => _productService.GetAllSelect();
     }
 }

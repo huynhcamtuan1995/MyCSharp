@@ -20,14 +20,20 @@ namespace APISample.Repositories
             _dbSet = db.Set<T>();
         }
 
-        //public IQueryable<TResult> WithInfo<T, TProperty, TResult>(this IQueryable<T> q, Expression<Func<T, TProperty>> propertySelector, Expression<Func<T, TProperty, TResult>> resultSelector)
-        //{
-        //    ParameterExpression param = Expression.Parameter(typeof(T));
-        //    InvocationExpression prop = Expression.Invoke(propertySelector, param);
+        public virtual IQueryable<TResult> QuerySelect<TResult>(
+            Expression<Func<T, object>> select = null,
+            Expression<Func<T, bool>> filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = Query(filter, orderBy, includes);
 
-        //    var lambda = Expression.Lambda<Func<T, TResult>>(Expression.Invoke(resultSelector, param, prop), param);
-        //    return q.Select(lambda);
-        //}
+            if (select == null)
+                return (IQueryable<TResult>)query;
+
+            return (IQueryable<TResult>)query.Select(select);
+        }
+
         public virtual IQueryable<T> Query(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
@@ -38,9 +44,6 @@ namespace APISample.Repositories
             foreach (Expression<Func<T, object>> include in includes)
                 query = query.Include(include);
 
-            //if (select != null)
-            //    query = (IQueryable<T>)query.Select(select);
-
             if (filter != null)
                 query = query.Where(filter);
 
@@ -50,11 +53,11 @@ namespace APISample.Repositories
             return query;
         }
 
-        public virtual IEnumerable<T> GetWithRawSql(
+        public virtual IEnumerable<TResult> GetWithRawSql<TResult>(
             string query,
             params object[] parameters)
         {
-            return _dbSet.FromSqlRaw(query, parameters).ToList();
+            return (IEnumerable<TResult>)_dbSet.FromSqlRaw(query, parameters).ToList();
         }
 
         public virtual T GetByID(object id)
@@ -62,9 +65,10 @@ namespace APISample.Repositories
             return _dbSet.Find(id);
         }
 
-        public virtual void Insert(T entity)
+        public virtual T Insert(T entity)
         {
             _dbSet.Add(entity);
+            return entity;
         }
 
         public virtual void Delete(object id)
@@ -82,11 +86,13 @@ namespace APISample.Repositories
             _dbSet.Remove(entityToDelete);
         }
 
-        public virtual void Update(T entityToUpdate)
+        public virtual T Update(T entityToUpdate)
         {
             _dbSet.Attach(entityToUpdate);
             _db.Entry(entityToUpdate).State = EntityState.Modified;
+            return entityToUpdate;
         }
+
     }
 }
 

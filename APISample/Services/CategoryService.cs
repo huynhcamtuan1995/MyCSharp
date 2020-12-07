@@ -10,8 +10,17 @@ namespace APISample.Services
 {
     public class CategoryService : BaseGenericRepository<Category>, ICategoryService
     {
-        public CategoryService(DataContext db) : base(db) {}
+        public CategoryService(DataContext db) : base(db) { }
 
-        public IEnumerable<Category> GetAll(params Expression<Func<Category, object>>[] includes) => Query(includes: includes).ToList();
+        public IEnumerable<Category> GetAll() => Query(includes: c => c.Products).ToList();
+        public IEnumerable<object> GetAllSelect()
+        {
+            return QuerySelect<object>(select: a => new
+            {
+                ID = a.ID,
+                Name = a.Name,
+                Products = a.Products.Select(b => b.ID).ToList()
+            }, includes: c => c.Products).ToList();
+        }
     }
 }

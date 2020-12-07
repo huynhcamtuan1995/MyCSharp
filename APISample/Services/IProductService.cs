@@ -10,6 +10,7 @@ namespace APISample.Services
 {
     public interface IProductService : IGenericRepository<Product>
     {
-        IEnumerable<Product> GetAll(params Expression<Func<Product, object>>[] includes);
+        IEnumerable<Product> GetAll();
+        IEnumerable<object> GetAllSelect();
     }
 }
