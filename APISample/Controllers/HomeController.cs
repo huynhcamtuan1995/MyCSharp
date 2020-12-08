@@ -1,5 +1,5 @@
 ﻿using APISample.Models;
-using APISample.Services;
+using APISample.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;

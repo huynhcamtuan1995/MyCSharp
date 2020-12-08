@@ -39,16 +39,23 @@ namespace APISample.EF
             {
                 entity.HasKey(e => e.ID);
                 entity.Property(e => e.Name).IsRequired();
-                entity.HasMany(p => p.Products);
+                entity.HasMany(p => p.Products)
+                    .WithOne(c => c.Category)
+                    //.HasForeignKey(p => p.ProductID)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.HasKey(e => e.ID);
                 entity.Property(e => e.Name).IsRequired();
+                entity.Property(e => e.Quantity).HasDefaultValue(0);
                 entity.HasOne(d => d.Category)
-                  .WithMany(p => p.Products);
+                    .WithMany(p => p.Products);
             });
+
+            //seeding data
+            modelBuilder.Seed();
         }
     }
 
