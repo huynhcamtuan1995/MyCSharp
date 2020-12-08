@@ -16,7 +16,7 @@ namespace APISample.Services
 
         public IEnumerable<object> GetAllSelect()
         {
-            return QuerySelect<object>(select: a => new
+            return Query<object>(select: a => new
             {
                 ID = a.ID,
                 Name = a.Name,

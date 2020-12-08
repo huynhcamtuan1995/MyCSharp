@@ -20,23 +20,20 @@ namespace APISample.Repositories
             _dbSet = db.Set<T>();
         }
 
-        public virtual IQueryable<TResult> QuerySelect<TResult>(
-            Expression<Func<T, object>> select = null,
+        public virtual IQueryable<TResult> Query<TResult>(
+            Expression<Func<T, object>> select,
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             params Expression<Func<T, object>>[] includes)
         {
-            IQueryable<T> query = Query(filter, orderBy, includes);
-
-            if (select == null)
-                return (IQueryable<TResult>)query;
-
+            IQueryable<T> query = Query(filter: filter, orderBy: orderBy, includes: includes);
             return (IQueryable<TResult>)query.Select(select);
         }
 
         public virtual IQueryable<T> Query(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+         
             params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _dbSet;

@@ -11,15 +11,15 @@ namespace APISample.Repositories
     {
         void Delete(T entityToDelete);
         void Delete(object id);
-        IQueryable<TResult> QuerySelect<TResult>(
-            Expression<Func<T, object>> select = null,
+        IQueryable<TResult> Query<TResult>(
+            Expression<Func<T, object>> select,
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             params Expression<Func<T, object>>[] includes);
         IQueryable<T> Query(
-        Expression<Func<T, bool>> filter = null,
-        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-        params Expression<Func<T, object>>[] includes);
+            Expression<Func<T, bool>> filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            params Expression<Func<T, object>>[] includes);
 
         T GetByID(object id);
         IEnumerable<TResult> GetWithRawSql<TResult>(string query,
