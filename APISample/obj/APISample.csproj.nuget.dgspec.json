@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\workplace\\APISample\\APISample\\APISample.csproj": {}
+    "D:\\environment\\source\\MyCSharp\\APISample\\APISample.csproj": {}
   },
   "projects": {
-    "D:\\workplace\\APISample\\APISample\\APISample.csproj": {
+    "D:\\environment\\source\\MyCSharp\\APISample\\APISample.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workplace\\APISample\\APISample\\APISample.csproj",
+        "projectUniqueName": "D:\\environment\\source\\MyCSharp\\APISample\\APISample.csproj",
         "projectName": "APISample",
-        "projectPath": "D:\\workplace\\APISample\\APISample\\APISample.csproj",
-        "packagesPath": "C:\\Users\\huynhcam.tuan\\.nuget\\packages\\",
-        "outputPath": "D:\\workplace\\APISample\\APISample\\obj\\",
+        "projectPath": "D:\\environment\\source\\MyCSharp\\APISample\\APISample.csproj",
+        "packagesPath": "C:\\Users\\HK\\.nuget\\packages\\",
+        "outputPath": "D:\\environment\\source\\MyCSharp\\APISample\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\huynhcam.tuan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\HK\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

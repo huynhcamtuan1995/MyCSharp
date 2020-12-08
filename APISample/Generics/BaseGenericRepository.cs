@@ -1,4 +1,5 @@
-﻿using APISample.Models;
+﻿using APISample.EF;
+using APISample.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,15 +7,15 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace APISample.Repositories
+namespace APISample.Generics
 {
-    public class BaseGenericRepository<T> : IGenericRepository<T> where T : class
+    public class BaseGeneric<T> : IGeneric<T> where T : class
     {
         private DbContext _db;
 
         private DbSet<T> _dbSet;
 
-        public BaseGenericRepository(DataContext db)
+        public BaseGeneric(DataContext db)
         {
             _db = db;
             _dbSet = db.Set<T>();

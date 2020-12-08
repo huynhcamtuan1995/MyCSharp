@@ -5,8 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APISample.Models;
 
-namespace APISample.Models
+namespace APISample.EF
 {
     public class DataContext : DbContext
     {

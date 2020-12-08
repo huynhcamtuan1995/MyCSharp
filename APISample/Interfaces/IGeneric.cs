@@ -5,9 +5,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace APISample.Repositories
+namespace APISample.Generics
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGeneric<T> where T : class
     {
         void Delete(T entityToDelete);
         void Delete(object id);
