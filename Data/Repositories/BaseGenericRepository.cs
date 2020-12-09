@@ -1,13 +1,12 @@
-﻿using APISample.EF;
-using APISample.Models;
+﻿using Data.EF;
+using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
-namespace APISample.Generics
+namespace Data.Repositories
 {
     public class BaseGeneric<T> : IGeneric<T> where T : class
     {

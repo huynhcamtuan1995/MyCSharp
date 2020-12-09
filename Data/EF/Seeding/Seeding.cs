@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using APISample.Models;
+using Data.Models;
 
-namespace APISample.EF
+namespace Data.EF
 {
     public static class Seeding
     {

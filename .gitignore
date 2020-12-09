@@ -2,3 +2,6 @@
 APISample/obj/Debug
 .vs
 APISample/bin
+Data/bin
+Data/obj
+APISample/obj

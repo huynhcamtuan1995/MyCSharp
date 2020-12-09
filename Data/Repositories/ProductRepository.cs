@@ -1,17 +1,15 @@
-﻿using APISample.EF;
-using APISample.Models;
-using APISample.Generics;
-using System;
+﻿using Data.EF;
+using Data.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+using Data.Interfaces;
+using Data.Utilities;
 
-namespace APISample.Repositories
+namespace Data.Repositories
 {
-    public class ProductService : BaseGeneric<Product>, IProductService
+    public class ProductRepository : BaseGeneric<Product>, IProductRepository
     {
-        public ProductService(DataContext db) : base(db) { }
+        public ProductRepository(DataContext db) : base(db) { }
 
         public IEnumerable<Product> GetAll() => Query(includes: p => p.Category).ToList();
 
@@ -28,7 +26,7 @@ namespace APISample.Repositories
                     Name = a.Category.Name,
                     ProductIds = a.Category.Products.Select(b => b.ID).ToList()
                 }
-            }, includes: p => p.Category).ToList();
+            }, includes: p => p.Category).ToPageList(pageSize: 2, page: 0);
         }
     }
 }

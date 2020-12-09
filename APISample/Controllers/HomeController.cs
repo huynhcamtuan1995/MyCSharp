@@ -1,29 +1,25 @@
-﻿using APISample.Models;
-using APISample.Repositories;
+﻿using Data.Interfaces;
+using Data.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace APISample.Controllers
 {
     [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
-        private ICategoryService _categoryService;
-        private IProductService _productService;
+        private ICategoryRepository _categoryRepository;
+        private IProductRepository _productRepository;
 
-        public HomeController(ICategoryService categoryService, IProductService productService)
+        public HomeController(ICategoryRepository categoryRepository, IProductRepository productRepository)
         {
-            _categoryService = categoryService;
-            _productService = productService;
+            _categoryRepository = categoryRepository;
+            _productRepository = productRepository;
         }
 
-        public IEnumerable<Category> GetCategories() => _categoryService.GetAll();
-        public IEnumerable<object> GetSelectCategories() => _categoryService.GetAllSelect();
-        public IEnumerable<Product> GetProducts() => _productService.GetAll();
-        public IEnumerable<object> GetSelectProducts() => _productService.GetAllSelect();
+        public IEnumerable<Category> GetCategories() => _categoryRepository.GetAll();
+        public IEnumerable<object> GetSelectCategories() => _categoryRepository.GetAllSelect();
+        public IEnumerable<Product> GetProducts() => _productRepository.GetAll();
+        public IEnumerable<object> GetSelectProducts() => _productRepository.GetAllSelect();
     }
 }

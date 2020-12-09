@@ -1,18 +1,15 @@
-﻿using APISample.Models;
-using APISample.Generics;
-using System;
+﻿using Data.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using APISample.Utilities;
-using APISample.EF;
+using Data.Utilities;
+using Data.EF;
+using Data.Interfaces;
 
-namespace APISample.Repositories
+namespace Data.Repositories
 {
-    public class CategoryService : BaseGeneric<Category>, ICategoryService
+    public class CategoryRepository : BaseGeneric<Category>, ICategoryRepository
     {
-        public CategoryService(DataContext db) : base(db) { }
+        public CategoryRepository(DataContext db) : base(db) { }
 
         public IEnumerable<Category> GetAll() => Query(includes: c => c.Products).ToList();
         public IEnumerable<object> GetAllSelect()
