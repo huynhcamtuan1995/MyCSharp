@@ -33,20 +33,26 @@ namespace Data.EF
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.HasKey(e => e.ID);
-                entity.Property(e => e.Name).IsRequired();
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
                 entity.HasMany(p => p.Products)
                     .WithOne(c => c.Category)
-                    //.HasForeignKey(p => p.ProductID)
+                    .HasForeignKey(c => c.CategoryID)
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.HasKey(e => e.ID);
-                entity.Property(e => e.Name).IsRequired();
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
                 entity.Property(e => e.Quantity).HasDefaultValue(0);
                 entity.HasOne(d => d.Category)
-                    .WithMany(p => p.Products);
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(p => p.CategoryID)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             ////seeding data

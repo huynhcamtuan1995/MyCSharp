@@ -1,7 +1,11 @@
-﻿using Data.Interfaces;
+﻿using Data.EF;
+using Data.Interfaces;
 using Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace APISample.Controllers
 {
@@ -10,16 +14,30 @@ namespace APISample.Controllers
     {
         private ICategoryRepository _categoryRepository;
         private IProductRepository _productRepository;
-
-        public HomeController(ICategoryRepository categoryRepository, IProductRepository productRepository)
+        private DataContext _db;
+        public HomeController(ICategoryRepository categoryRepository, IProductRepository productRepository, DataContext db)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
+            _db = db;
         }
 
-        public IEnumerable<Category> GetCategories() => _categoryRepository.GetAll();
-        public IEnumerable<object> GetSelectCategories() => _categoryRepository.GetAllSelect();
-        public IEnumerable<Product> GetProducts() => _productRepository.GetAll();
-        public IEnumerable<object> GetSelectProducts() => _productRepository.GetAllSelect();
+        [HttpGet]
+        public ActionResult RunRawSqlQuery(string query = "select ID,Name from Categories", params object[] parameters)
+        {
+            var result =_db.Categories.FromSqlRaw(query, parameters).ToList();
+            return Json(result);
+        }
+
+        [HttpGet]
+        public ActionResult GetCategories() => Json(_categoryRepository.GetAll());
+        [HttpGet]
+        public ActionResult GetSelectCategories() => Json(_categoryRepository.GetAllSelect());
+        [HttpGet]
+        public ActionResult GetProducts() => Json(_productRepository.GetAll());
+        [HttpGet]
+        public ActionResult GetSelectProducts() => Json(_productRepository.GetAllSelect());
+
+
     }
 }
