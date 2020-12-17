@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Data.Utilities;
 using Data.EF;
-using Data.Interfaces;
+using Data.Generic;
 
 namespace Data.Repositories
 {
+    public interface ICategoryRepository : IGeneric<Category>
+    {
+        IEnumerable<Category> GetAll();
+        IEnumerable<object> GetAllSelect();
+    }
     public class CategoryRepository : BaseGeneric<Category>, ICategoryRepository
     {
         public CategoryRepository(DataContext db) : base(db) { }

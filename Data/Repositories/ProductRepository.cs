@@ -2,11 +2,17 @@
 using Data.Models;
 using System.Collections.Generic;
 using System.Linq;
-using Data.Interfaces;
 using Data.Utilities;
+using Data.Generic;
+using Microsoft.Extensions.Configuration;
 
 namespace Data.Repositories
 {
+    public interface IProductRepository : IGeneric<Product>
+    {
+        IEnumerable<Product> GetAll();
+        IEnumerable<object> GetAllSelect();
+    }
     public class ProductRepository : BaseGeneric<Product>, IProductRepository
     {
         public ProductRepository(DataContext db) : base(db) { }

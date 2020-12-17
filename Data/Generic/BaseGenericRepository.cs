@@ -1,13 +1,33 @@
 ﻿using Data.EF;
-using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Data.Repositories
+namespace Data.Generic
 {
+    public interface IGeneric<T> where T : class
+    {
+        void Delete(T entityToDelete);
+        void Delete(object id);
+        IQueryable<TResult> Query<TResult>(
+            Expression<Func<T, object>> select,
+            Expression<Func<T, bool>> filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            params Expression<Func<T, object>>[] includes);
+        IQueryable<T> Query(
+            Expression<Func<T, bool>> filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            params Expression<Func<T, object>>[] includes);
+
+        T GetByFields(Expression<Func<T, bool>> filter = null);
+        T GetByID(object id);
+        IEnumerable<TResult> GetWithRawSql<TResult>(string query,
+            params object[] parameters);
+        T Insert(T entity);
+        T Update(T entityToUpdate);
+    }
     public class BaseGeneric<T> : IGeneric<T> where T : class
     {
         private DbContext _db;
@@ -33,7 +53,6 @@ namespace Data.Repositories
         public virtual IQueryable<T> Query(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-         
             params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _dbSet;
@@ -56,15 +75,19 @@ namespace Data.Repositories
         {
             return (IEnumerable<TResult>)_dbSet.FromSqlRaw(query, parameters).ToList();
         }
-
         public virtual T GetByID(object id)
         {
             return _dbSet.Find(id);
+        }
+        public virtual T GetByFields(Expression<Func<T, bool>> filter)
+        {
+            return _dbSet.SingleOrDefault(filter);
         }
 
         public virtual T Insert(T entity)
         {
             _dbSet.Add(entity);
+            _db.SaveChanges();
             return entity;
         }
 
@@ -72,6 +95,7 @@ namespace Data.Repositories
         {
             T entityToDelete = _dbSet.Find(id);
             Delete(entityToDelete);
+            _db.SaveChanges();
         }
 
         public virtual void Delete(T entityToDelete)
@@ -81,15 +105,16 @@ namespace Data.Repositories
                 _dbSet.Attach(entityToDelete);
             }
             _dbSet.Remove(entityToDelete);
+            _db.SaveChanges();
         }
 
         public virtual T Update(T entityToUpdate)
         {
             _dbSet.Attach(entityToUpdate);
             _db.Entry(entityToUpdate).State = EntityState.Modified;
+            _db.SaveChanges();
             return entityToUpdate;
         }
-
     }
 }
 

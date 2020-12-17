@@ -55,6 +55,13 @@ namespace Data.EF
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.Username)
+                    .IsRequired();
+            });
+
             ////seeding data
             //modelBuilder.Seed();
         }
