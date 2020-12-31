@@ -14,19 +14,16 @@ namespace APISample.Controllers
     {
         private ICategoryRepository _categoryRepository;
         private IProductRepository _productRepository;
-        private DataContext _db;
-        public HomeController(ICategoryRepository categoryRepository, IProductRepository productRepository, DataContext db)
+        public HomeController(ICategoryRepository categoryRepository, IProductRepository productRepository)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
-            _db = db;
         }
 
         [HttpGet]
         public ActionResult RunRawSqlQuery(string query = "select ID,Name from Categories", params object[] parameters)
         {
-            var result =_db.Categories.FromSqlRaw(query, parameters).ToList();
-            return Json(result);
+            return Json(_categoryRepository.GetWithRawSql<object>(query));
         }
 
         [HttpGet]

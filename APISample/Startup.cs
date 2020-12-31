@@ -15,6 +15,7 @@ using Data.Services;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Data;
 
 namespace APISample
 {
@@ -55,7 +56,7 @@ namespace APISample
                     ClockSkew = TimeSpan.Zero
                 };
             });
-
+            services.AddSingleton<Context>();
             services.AddScoped(typeof(IGeneric<>), typeof(BaseGeneric<>));
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();

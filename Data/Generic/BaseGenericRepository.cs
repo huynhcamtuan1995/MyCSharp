@@ -1,7 +1,10 @@
 ﻿using Data.EF;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -73,8 +76,49 @@ namespace Data.Generic
             string query,
             params object[] parameters)
         {
-            return (IEnumerable<TResult>)_dbSet.FromSqlRaw(query, parameters).ToList();
+            using (var cmd = _db.Database.GetDbConnection().CreateCommand())
+            {
+                try
+                {
+                    cmd.CommandText = query;
+                    if (cmd.Connection.State != ConnectionState.Open)
+                    {
+                        cmd.Connection.Open();
+                    }
+
+                    if (parameters.Count() > 0)
+                    {
+                        cmd.Parameters.AddRange(parameters);
+                    }
+
+                    using (var dataReader = cmd.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            var schemaTable = dataReader.GetSchemaTable();
+                            IEnumerable<string> columns = schemaTable == null
+                                ? Enumerable.Empty<string>()
+                                : schemaTable.Rows.OfType<DataRow>().Select(row => row["ColumnName"].ToString());
+
+                            var row = new ExpandoObject() as IDictionary<string, object>;
+                            foreach (var column in columns)
+                            {
+                                row.Add(column, dataReader[column]);
+                            }
+                            yield return (TResult)row;
+                        }
+                    }
+                }
+                finally
+                {
+                    if (cmd.Connection.State == ConnectionState.Open)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
         }
+
         public virtual T GetByID(object id)
         {
             return _dbSet.Find(id);
