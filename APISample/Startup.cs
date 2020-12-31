@@ -31,7 +31,8 @@ namespace APISample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetSection("ConnectionStrings").GetSection("SqlServer")["Connection"]));
 
             var appSettings = Configuration.GetSection("AppSettings")["Secret"];
             var key = Encoding.ASCII.GetBytes(appSettings);
@@ -59,6 +60,8 @@ namespace APISample
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<ICourseRepositories, CourseRepositories>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddSwaggerGen();
