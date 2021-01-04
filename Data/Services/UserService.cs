@@ -1,8 +1,4 @@
-﻿using Data.EF;
-using Data.Models;
-using Data.Generic;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
@@ -10,9 +6,10 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using Data.Repositories;
+using DataSql.Models;
+using DataSql.Repositories;
 
-namespace Data.Services
+namespace DataSql.Services
 {
     public interface IUserService 
     {

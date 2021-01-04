@@ -1,11 +1,12 @@
-﻿using Data.Models;
+﻿using DataNoSql.Context;
+using DataNoSql.Models;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Repositories
+namespace DataNoSql.Repositories
 {
     public interface ICourseRepositories
     {
@@ -17,8 +18,8 @@ namespace Data.Repositories
     }
     public class CourseRepositories : ICourseRepositories
     {
-        private readonly Context _db;
-        public CourseRepositories(Context db)
+        private readonly DbContext _db;
+        public CourseRepositories(DbContext db)
         {
             _db = db;
         }

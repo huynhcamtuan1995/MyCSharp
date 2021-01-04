@@ -1,17 +1,14 @@
-﻿using Data.Models;
+﻿using DataNoSql.Models;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Data
+namespace DataNoSql.Context
 {
-    public class Context
+    public class DbContext
     {
         private readonly IMongoDatabase _database = null;
 
-        public Context(IConfiguration configuration)
+        public DbContext(IConfiguration configuration)
         {
             var client = new MongoClient(configuration.GetSection("ConnectionStrings").GetSection("MongoDB")["Connection"]);
             if (client != null)

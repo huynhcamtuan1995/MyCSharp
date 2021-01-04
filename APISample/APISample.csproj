@@ -20,7 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\DataNoSql\DataNoSql.csproj" />
+    <ProjectReference Include="..\Data\DataSql.csproj" />
   </ItemGroup>
 
 

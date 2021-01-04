@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Data.Migrations
+namespace DataSql.Migrations
 {
     public partial class InitMigration : Migration
     {

@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Data.Models;
+﻿using DataSql.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace Data.EF
+namespace DataSql.EF
 {
     public static class Seeding
     {

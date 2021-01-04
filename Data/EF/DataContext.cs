@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Data.Models;
+using DataSql.Models;
 
-namespace Data.EF
+namespace DataSql.EF
 {
     public class DataContext : DbContext
     {

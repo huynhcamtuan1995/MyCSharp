@@ -1,6 +1,6 @@
 using System;
 
-namespace Data.Models
+namespace DataSql.Models
 {
     public class WeatherForecast
     {

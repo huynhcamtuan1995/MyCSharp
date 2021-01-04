@@ -1,12 +1,11 @@
-﻿using Data.EF;
-using Data.Models;
+﻿using DataSql.EF;
+using DataSql.Generic;
+using DataSql.Models;
+using DataSql.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using Data.Utilities;
-using Data.Generic;
-using Microsoft.Extensions.Configuration;
 
-namespace Data.Repositories
+namespace DataSql.Repositories
 {
     public interface IProductRepository : IGeneric<Product>
     {

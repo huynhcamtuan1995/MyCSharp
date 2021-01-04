@@ -1,13 +1,10 @@
-﻿using Data.Models;
-using System.Collections.Generic;
-using System.Linq;
-using Data.Utilities;
-using Data.EF;
-using Data.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DataNoSql.Context;
+using DataNoSql.Models;
 using MongoDB.Driver;
 
-namespace Data.Repositories
+namespace DataNoSql.Repositories
 {
     public interface IStudentRepository
     {
@@ -19,8 +16,8 @@ namespace Data.Repositories
     }
     public class StudentRepository : IStudentRepository
     {
-        private readonly Context _db;
-        public StudentRepository(Context db)
+        private readonly DbContext _db;
+        public StudentRepository(DbContext db)
         {
             _db = db;
         }

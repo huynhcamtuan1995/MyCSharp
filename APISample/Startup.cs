@@ -1,21 +1,18 @@
-using Data.EF;
-using Data.Repositories;
-using Data.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using System;
-using System.IO;
-using System.Reflection;
-using Data.Services;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Data;
+using DataSql.EF;
+using DataSql.Generic;
+using DataSql.Repositories;
+using DataNoSql.Repositories;
+using DataSql.Services;
 
 namespace APISample
 {
@@ -56,7 +53,7 @@ namespace APISample
                     ClockSkew = TimeSpan.Zero
                 };
             });
-            services.AddSingleton<Context>();
+            services.AddSingleton<DbContext>();
             services.AddScoped(typeof(IGeneric<>), typeof(BaseGeneric<>));
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();

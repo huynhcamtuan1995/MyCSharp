@@ -1,11 +1,11 @@
-﻿using Data.Models;
+﻿using DataSql.EF;
+using DataSql.Generic;
+using DataSql.Models;
+using DataSql.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using Data.Utilities;
-using Data.EF;
-using Data.Generic;
 
-namespace Data.Repositories
+namespace DataSql.Repositories
 {
     public interface ICategoryRepository : IGeneric<Category>
     {

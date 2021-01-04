@@ -1,5 +1,4 @@
-﻿using Data.EF;
-using Microsoft.Data.SqlClient;
+﻿using DataSql.EF;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Data.Generic
+namespace DataSql.Generic
 {
     public interface IGeneric<T> where T : class
     {

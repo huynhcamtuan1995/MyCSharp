@@ -1,12 +1,6 @@
-﻿using Data.Models;
-using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Repositories;
+﻿using DataNoSql.Repositories;
 
-namespace Data.Services
+namespace DataNoSql.Services
 {
 
     public class MongoQueryService

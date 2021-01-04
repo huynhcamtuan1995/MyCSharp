@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace Data.Models
+namespace DataSql.Models
 {
     public class Indentity
     {
