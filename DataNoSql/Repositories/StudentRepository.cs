@@ -16,8 +16,8 @@ namespace DataNoSql.Repositories
     }
     public class StudentRepository : IStudentRepository
     {
-        private readonly DbContext _db;
-        public StudentRepository(DbContext db)
+        private readonly MongoContext _db;
+        public StudentRepository(MongoContext db)
         {
             _db = db;
         }

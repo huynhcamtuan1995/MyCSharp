@@ -4,11 +4,11 @@ using MongoDB.Driver;
 
 namespace DataNoSql.Context
 {
-    public class DbContext
+    public class MongoContext
     {
         private readonly IMongoDatabase _database = null;
 
-        public DbContext(IConfiguration configuration)
+        public MongoContext(IConfiguration configuration)
         {
             var client = new MongoClient(configuration.GetSection("ConnectionStrings").GetSection("MongoDB")["Connection"]);
             if (client != null)

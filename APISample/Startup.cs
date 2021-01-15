@@ -13,6 +13,7 @@ using DataSql.Generic;
 using DataSql.Repositories;
 using DataNoSql.Repositories;
 using DataSql.Services;
+using DataNoSql.Context;
 
 namespace APISample
 {
@@ -53,7 +54,7 @@ namespace APISample
                     ClockSkew = TimeSpan.Zero
                 };
             });
-            services.AddSingleton<DbContext>();
+            services.AddSingleton<MongoContext>();
             services.AddScoped(typeof(IGeneric<>), typeof(BaseGeneric<>));
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();

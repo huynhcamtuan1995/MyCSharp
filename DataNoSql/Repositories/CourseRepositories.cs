@@ -18,8 +18,8 @@ namespace DataNoSql.Repositories
     }
     public class CourseRepositories : ICourseRepositories
     {
-        private readonly DbContext _db;
-        public CourseRepositories(DbContext db)
+        private readonly MongoContext _db;
+        public CourseRepositories(MongoContext db)
         {
             _db = db;
         }
