@@ -1,11 +1,5 @@
-﻿using Data.EF;
-using Data.Repositories;
-using Data.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using System.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using DataSql.Repositories;
 
 namespace APISample.Controllers
 {
