@@ -1,4 +1,4 @@
-﻿using Data.Models;
+﻿using DataSql.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

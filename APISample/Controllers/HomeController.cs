@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using DataSql.Repositories;
+﻿using DataSql.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace APISample.Controllers
 {
