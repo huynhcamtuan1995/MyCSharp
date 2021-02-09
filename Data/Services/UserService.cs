@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using DataSql.Models;
 using DataSql.Repositories;
+using System.Collections.Generic;
 
 namespace DataSql.Services
 {
@@ -78,7 +79,22 @@ namespace DataSql.Services
 
         public bool RevokeToken(string token, string ipAddress)
         {
-            throw new NotImplementedException();
+            var user = _userRepository.GetByFields(u => u.RefreshTokens.Any(t => t.Token == token));
+
+            // return false if no user found with token
+            if (user == null) return false;
+
+            var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
+
+            // return false if token is not active
+            if (!refreshToken.IsActive) return false;
+
+            // revoke token and save
+            refreshToken.Revoked = DateTime.UtcNow;
+            refreshToken.RevokedByIp = ipAddress;
+            _userRepository.Update(user);
+
+            return true;
         }
 
         private string generateJwtToken(User user)
@@ -89,7 +105,9 @@ namespace DataSql.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.ID.ToString()),
+                    new Claim(ClaimTypes.Name, Guid.NewGuid().ToString("D")),
+                    new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
+                    new Claim("Name", user.Username.ToString()),
                     new Claim(ClaimTypes.Role, user.Role.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(15),

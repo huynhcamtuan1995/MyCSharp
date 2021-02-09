@@ -14,7 +14,7 @@ namespace DataSql.Generic
         void Delete(T entityToDelete);
         void Delete(object id);
         IQueryable<TResult> Query<TResult>(
-            Expression<Func<T, object>> select,
+            Expression<Func<T, TResult>> select,
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             params Expression<Func<T, object>>[] includes);
@@ -43,7 +43,7 @@ namespace DataSql.Generic
         }
 
         public virtual IQueryable<TResult> Query<TResult>(
-            Expression<Func<T, object>> select,
+            Expression<Func<T, TResult>> select,
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             params Expression<Func<T, object>>[] includes)

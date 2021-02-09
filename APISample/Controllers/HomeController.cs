@@ -15,7 +15,7 @@ namespace APISample.Controllers
         }
 
         [HttpGet]
-        public ActionResult RunRawSqlQuery(string query = "select ID,Name from Categories", params object[] parameters)
+        public ActionResult RunRawSqlQuery(string query = "select ID, Name from Categories", params object[] parameters)
         {
             return Json(_categoryRepository.GetWithRawSql<object>(query));
         }
