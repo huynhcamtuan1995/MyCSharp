@@ -23,6 +23,7 @@ namespace DataSql.EF
         {
             _configuration = configuration;
             _httpContext = httpContext;
+            Database.EnsureCreated();
         }
 
         public DbSet<Category> Categories { get; set; }

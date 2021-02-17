@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace APISample.Controllers
 {
@@ -21,9 +22,9 @@ namespace APISample.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody] AuthenticateRequest model)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest model)
         {
-            var response = _userService.Authenticate(model, ipAddress());
+            var response = await _userService.Authenticate(model, ipAddress());
 
             if (response == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -35,10 +36,10 @@ namespace APISample.Controllers
 
         [AllowAnonymous]
         [HttpPost("refresh-token")]
-        public IActionResult RefreshToken()
+        public async Task<IActionResult> RefreshToken()
         {
             var refreshToken = Request.Cookies["refreshToken"];
-            var response = _userService.RefreshToken(refreshToken, ipAddress());
+            var response = await _userService.RefreshToken(refreshToken, ipAddress());
 
             if (response == null)
                 return Unauthorized(new { message = "Invalid token" });
@@ -49,7 +50,7 @@ namespace APISample.Controllers
         }
 
         [HttpPost("revoke-token")]
-        public IActionResult RevokeToken([FromBody] RevokeTokenRequest model)
+        public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenRequest model)
         {
             // accept token from request body or cookie
             var token = model.Token ?? Request.Cookies["refreshToken"];
@@ -57,7 +58,7 @@ namespace APISample.Controllers
             if (string.IsNullOrEmpty(token))
                 return BadRequest(new { message = "Token is required" });
 
-            var response = _userService.RevokeToken(token, ipAddress());
+            var response = await _userService.RevokeToken(token, ipAddress());
 
             if (!response)
                 return NotFound(new { message = "Token not found" });
@@ -67,25 +68,25 @@ namespace APISample.Controllers
 
         [Authorize(Roles = nameof(RoleMember.Admin))]
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var users = _userService.GetThisRepository().GetAll();
+            var users = await _userService.GetThisRepository().GetAllAsync();
             return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetByID(int id)
+        public async Task<IActionResult> GetByID(int id)
         {
-            var user = _userService.GetThisRepository().GetByID(id);
+            var user = await _userService.GetThisRepository().GetByIdAsync(id);
             if (user == null) return NotFound();
 
             return Ok(user);
         }
 
         [HttpGet("{id}/refresh-tokens")]
-        public IActionResult GetRefreshTokens(int id)
+        public async Task<IActionResult> GetRefreshTokens(int id)
         {
-            var user = _userService.GetThisRepository().GetByID(id);
+            var user = await _userService.GetThisRepository().GetByIdAsync(id);
             if (user == null) return NotFound();
 
             return Ok(user.RefreshTokens);

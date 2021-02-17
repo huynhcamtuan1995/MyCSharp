@@ -9,16 +9,17 @@ using System.Security.Cryptography;
 using DataSql.Models;
 using DataSql.Repositories;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DataSql.Services
 {
-    public interface IUserService 
+    public interface IUserService
     {
         IUserRepository GetThisRepository();
-        AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress);
-        AuthenticateResponse RefreshToken(string token, string ipAddress);
-        bool RevokeToken(string token, string ipAddress);
-      
+        Task<AuthenticateResponse> Authenticate(AuthenticateRequest model, string ipAddress);
+        Task<AuthenticateResponse> RefreshToken(string token, string ipAddress);
+        Task<bool> RevokeToken(string token, string ipAddress);
+
     }
     public class UserService : IUserService
     {
@@ -31,9 +32,9 @@ namespace DataSql.Services
             _userRepository = userRepository;
         }
 
-        public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
+        public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest model, string ipAddress)
         {
-            var user = _userRepository.GetByFields(x => x.Username == model.Username && x.Password == model.Password);
+            var user = await _userRepository.GetByFieldsAsync(x => x.Username == model.Username && x.Password == model.Password);
 
             // return null if user not found
             if (user == null) return null;
@@ -45,14 +46,14 @@ namespace DataSql.Services
             // save refresh token
             user.RefreshTokens.Add(refreshToken);
 
-            _userRepository.Update(user);
+            await _userRepository.UpdateAsync(user.ID, user);
 
             return new AuthenticateResponse(user, jwtToken, refreshToken.Token);
         }
 
-        public AuthenticateResponse RefreshToken(string token, string ipAddress)
+        public async Task<AuthenticateResponse> RefreshToken(string token, string ipAddress)
         {
-            var user = _userRepository.GetByFields(u => u.RefreshTokens.Any(t => t.Token == token));
+            var user = await _userRepository.GetByFieldsAsync(u => u.RefreshTokens.Any(t => t.Token == token));
 
             // return null if no user found with token
             if (user == null) return null;
@@ -69,7 +70,7 @@ namespace DataSql.Services
             refreshToken.ReplacedByToken = newRefreshToken.Token;
             user.RefreshTokens.Add(newRefreshToken);
 
-            _userRepository.Update(user);
+            await _userRepository.UpdateAsync(user);
 
             // generate new jwt
             var jwtToken = generateJwtToken(user);
@@ -77,9 +78,9 @@ namespace DataSql.Services
             return new AuthenticateResponse(user, jwtToken, newRefreshToken.Token);
         }
 
-        public bool RevokeToken(string token, string ipAddress)
+        public async Task<bool> RevokeToken(string token, string ipAddress)
         {
-            var user = _userRepository.GetByFields(u => u.RefreshTokens.Any(t => t.Token == token));
+            var user = await _userRepository.GetByFieldsAsync(u => u.RefreshTokens.Any(t => t.Token == token));
 
             // return false if no user found with token
             if (user == null) return false;
@@ -92,8 +93,8 @@ namespace DataSql.Services
             // revoke token and save
             refreshToken.Revoked = DateTime.UtcNow;
             refreshToken.RevokedByIp = ipAddress;
-            _userRepository.Update(user);
-
+            await _userRepository.UpdateAsync(user);
+            
             return true;
         }
 

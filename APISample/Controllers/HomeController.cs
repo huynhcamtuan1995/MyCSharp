@@ -1,5 +1,6 @@
 ﻿using DataSql.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace APISample.Controllers
 {
@@ -15,19 +16,24 @@ namespace APISample.Controllers
         }
 
         [HttpGet]
-        public ActionResult RunRawSqlQuery(string query = "select ID, Name from Categories", params object[] parameters)
+        public async Task<ActionResult> RunRawSqlQuery(string query = "select ID, Name from Categories", params object[] parameters)
         {
-            return Json(_categoryRepository.GetWithRawSql<object>(query));
+            return await Task.Run(() =>
+                Json(_categoryRepository.GetWithRawSql<object>(query)));
         }
 
         [HttpGet]
-        public ActionResult GetCategories() => Json(_categoryRepository.GetAll());
+        public async Task<ActionResult> GetCategories() =>
+            Json(await _categoryRepository.GetAllAsync());
         [HttpGet]
-        public ActionResult GetSelectCategories() => Json(_categoryRepository.GetAllSelect());
+        public async Task<ActionResult> GetSelectCategories() =>
+            Json(await _categoryRepository.GetAllSelectAsync());
         [HttpGet]
-        public ActionResult GetProducts() => Json(_productRepository.GetAll());
+        public async Task<ActionResult> GetProducts() =>
+            Json(await _productRepository.GetAllAsync());
         [HttpGet]
-        public ActionResult GetSelectProducts() => Json(_productRepository.GetAllSelect());
+        public async Task<ActionResult> GetSelectProducts() =>
+            Json(await _productRepository.GetAllSelectAsync());
 
 
     }
