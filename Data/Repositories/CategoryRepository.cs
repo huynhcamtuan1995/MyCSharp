@@ -1,7 +1,7 @@
-﻿using DataSql.EF;
-using DataSql.Generic;
+﻿using BaseDataFactory.Generic;
+using DataSql.EF;
 using DataSql.Models;
-using DataSql.Utilities;
+using Helper.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,7 +15,7 @@ namespace DataSql.Repositories
     }
     public class CategoryRepository : BaseGeneric<Category>, ICategoryRepository
     {
-        public CategoryRepository(DataContext db) : base(db) { }
+        public CategoryRepository(MyDataContext db) : base(db) { }
 
         public async Task<IEnumerable<Category>> GetAllAsync() => 
             await Task.Run(() => Query(includes: c => c.Products).ToList());

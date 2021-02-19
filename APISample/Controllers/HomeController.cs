@@ -23,7 +23,7 @@ namespace APISample.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetCategories() =>
+        public async Task<ActionResult> GetCategories() => 
             Json(await _categoryRepository.GetAllAsync());
         [HttpGet]
         public async Task<ActionResult> GetSelectCategories() =>

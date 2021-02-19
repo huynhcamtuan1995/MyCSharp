@@ -1,4 +1,4 @@
-﻿using DataSql.Models;
+﻿using BaseDataFactory.Models;
 using DataSql.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

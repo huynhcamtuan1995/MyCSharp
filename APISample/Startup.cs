@@ -9,7 +9,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using DataSql.EF;
-using DataSql.Generic;
+using BaseDataFactory.Generic;
 using DataSql.Repositories;
 using DataNoSql.Repositories;
 using DataSql.Services;
@@ -17,6 +17,7 @@ using DataNoSql.Context;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
+using BaseDataFactory.EF;
 
 namespace APISample
 {
@@ -35,6 +36,7 @@ namespace APISample
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetSection("ConnectionStrings").GetSection("SqlServer")["Connection"]));
+            services.AddDbContext<MyDataContext>();
 
             var appSettings = Configuration.GetSection("AppSettings")["Secret"];
             var key = Encoding.ASCII.GetBytes(appSettings);

@@ -1,10 +1,7 @@
-﻿using DataSql.EF;
-using DataSql.Generic;
-using DataSql.Models;
-using System;
+﻿using BaseDataFactory.EF;
+using BaseDataFactory.Generic;
+using BaseDataFactory.Models;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataSql.Repositories

@@ -7,3 +7,5 @@ Data/obj
 APISample/obj
 DataNoSql/obj
 DataNoSql/bin
+BaseDataFactory/bin
+BaseDataFactory/obj

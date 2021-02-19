@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace DataSql.Models
+namespace BaseDataFactory.Models
 {
     public class Indentity
     {
@@ -62,7 +62,7 @@ namespace DataSql.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }
-        public string JwtToken { get; set; }
+        public string AccessToken { get; set; }
 
         [JsonIgnore] // refresh token is returned in http only cookie
         public string RefreshToken { get; set; }
@@ -73,7 +73,7 @@ namespace DataSql.Models
             FirstName = user.FirstName;
             LastName = user.LastName;
             Username = user.Username;
-            JwtToken = jwtToken;
+            AccessToken = jwtToken;
             RefreshToken = refreshToken;
         }
     }

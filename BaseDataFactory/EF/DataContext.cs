@@ -1,20 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using DataSql.Models;
 using System.Linq;
 using System;
 using Microsoft.AspNetCore.Http;
-using DataSql.Constants;
 using System.Security.Claims;
-using System.Collections.Generic;
+using BaseDataFactory.Models;
 
-namespace DataSql.EF
+namespace BaseDataFactory.EF
 {
-    public class DataContext : DbContext
+    public partial class DataContext : DbContext
     {
-        private readonly IConfiguration _configuration;
-        private readonly IHttpContextAccessor _httpContext;
-
+        protected readonly IConfiguration _configuration;
+        protected readonly IHttpContextAccessor _httpContext;
+       
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
@@ -26,16 +24,18 @@ namespace DataSql.EF
             Database.EnsureCreated();
         }
 
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Product> Products { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.Username)
+                    .IsRequired();
+            });
         }
 
-        public override int SaveChanges()
+
+        public virtual int SaveChanges()
         {
             UpdateTime();
             return base.SaveChanges();
@@ -89,45 +89,7 @@ namespace DataSql.EF
             }
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Category>(entity =>
-            {
-                entity.HasKey(e => e.ID);
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255);
-                entity.HasMany(p => p.Products)
-                    .WithOne(c => c.Category)
-                    .HasForeignKey(c => c.CategoryID)
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<Product>(entity =>
-            {
-                entity.HasKey(e => e.ID);
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255);
-                entity.Property(e => e.Quantity).HasDefaultValue(0);
-                entity.HasOne(d => d.Category)
-                    .WithMany(p => p.Products)
-                    .HasForeignKey(p => p.CategoryID)
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasKey(e => e.ID);
-                entity.Property(e => e.Username)
-                    .IsRequired();
-            });
-
-            ////seeding data
-            //modelBuilder.Seed();
-        }
+        
     }
 
 }

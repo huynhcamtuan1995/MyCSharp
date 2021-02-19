@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataSql.Constants
+namespace BaseDataFactory.Constants
 {
     public static class AuthConstants
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace DataSql.Utilities
+namespace Helper.Utilities
 {
     public static class ListUtils
     {
