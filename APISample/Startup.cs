@@ -35,8 +35,8 @@ namespace APISample
         {
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetSection("ConnectionStrings").GetSection("SqlServer")["Connection"]));
-            services.AddDbContext<MyDataContext>();
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetSection("ConnectionStrings").GetSection("SqlServer")["Connection"]), ServiceLifetime.Singleton);
+            services.AddDbContext<MyDataContext>(ServiceLifetime.Singleton);
 
             var appSettings = Configuration.GetSection("AppSettings")["Secret"];
             var key = Encoding.ASCII.GetBytes(appSettings);
